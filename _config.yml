@@ -6,3 +6,4 @@ plugins:
   - jekyll-remote-theme
 
 search_enabled: true
+enable_copy_code_button: true

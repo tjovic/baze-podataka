@@ -511,6 +511,17 @@ INSERT INTO ispit VALUES
 SELECT * FROM ispit;
 ```
 
+### Pokušajmo unijeti vrijednost ključa koji postoji:
+
+```sql
+INSERT INTO ispit VALUES ('0555004388', 1001, '2022-01-29', 1, 1111);
+```
+
+### Što očekivati?
+
+SQL Server vraća grešku: 
+*Violation of **PRIMARY KEY** constraint 'UQ_ispit'. Cannot insert duplicate key in object 'dbo.ispit'. The duplicate key value is (0555004388, 1001, 2022-01-29).*
+
 ### Zašto je to korisno?
 
 - `sifIspit` je jednostavan za referenciranje
@@ -525,7 +536,7 @@ INSERT INTO ispit VALUES ('0555004388', 1001, '2022-01-29', 1, 1111);
 ### Što očekivati?
 
 SQL Server vraća grešku: 
-*Violation of UNIQUE KEY constraint 'UQ_ispit'. Cannot insert duplicate key in object 'dbo.ispit'. The duplicate key value is (0555004388, 1001, 2022-01-29).*
+*Violation of **UNIQUE KEY** constraint 'UQ_ispit'. Cannot insert duplicate key in object 'dbo.ispit'. The duplicate key value is (0555004388, 1001, 2022-01-29).*
 
 ### Pitanje za razmišljanje
 

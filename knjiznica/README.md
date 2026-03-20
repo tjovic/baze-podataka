@@ -87,9 +87,6 @@ Rezervacija se uklanja:
 
 ## DDL
 
-Kompletan DDL:
-[ddl/knjiznica.sql](ddl/knjiznica.sql)
-
 ```sql
 CREATE TABLE kategorija (
     idKat INT IDENTITY(1,1) PRIMARY KEY,

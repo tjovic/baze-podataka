@@ -180,6 +180,8 @@ rezultat:
 ```sql
 INSERT INTO nastavnik (sifNast, oibNast, prezNast, aktivan)
 VALUES (1002, '91643023865', N'Maxwell', 0);
+
+SELECT * FROM nastavnik;
 ```
 
 > DEFAULT se koristi samo ako stupac nije naveden u INSERT naredbi
@@ -382,11 +384,8 @@ Primjeri:
 ### Unos podataka
 
 ```sql
-INSERT INTO nastavnik VALUES ('06382780091', N'Newton');
--- sada ne navodimo sifNast jer se on generira automatski
-
-INSERT INTO nastavnik (oibNast, prezNast)
-VALUES ('91643023865', N'Maxwell');
+INSERT INTO nastavnik VALUES ('06382780091', N'Newton'); -- sada ne navodimo sifNast jer se on generira automatski
+INSERT INTO nastavnik (oibNast, prezNast) VALUES ('91643023865', N'Maxwell');
 
 SELECT * FROM nastavnik;
 ```
@@ -397,12 +396,22 @@ SELECT * FROM nastavnik;
 
 ### Razlika između `DELETE` i `TRUNCATE`
 
+DELETE briše redove iz tablice, ali ne resetira IDENTITY vrijednost.
 ```sql
 DELETE FROM nastavnik;
--- DELETE briše redove iz tablice, ali ne resetira IDENTITY vrijednost.
 
+INSERT INTO nastavnik VALUES ('06382780091', N'Newton');
+
+SELECT * FROM nastavnik;
+```
+
+TRUNCATE briše sve redove iz tablice i resetira IDENTITY brojač na početnu vrijednost.
+```sql
 TRUNCATE TABLE nastavnik;
--- TRUNCATE briše sve redove iz tablice i resetira IDENTITY brojač na početnu vrijednost.
+
+INSERT INTO nastavnik VALUES ('06382780091', N'Newton');
+
+SELECT * FROM nastavnik;
 ```
 
 ### Pitanja za provjeru razumijevanja
@@ -494,6 +503,16 @@ CREATE TABLE ispit
     sifNast INT,
     CONSTRAINT UQ_ispit UNIQUE (jmbag, sifPred, datIspit) -- štitimo alternativni ključ
 );
+
+-- Testni podaci
+INSERT INTO ispit VALUES
+('0555004388', 1001, '2022-01-29', 1, 1111),
+('0555004388', 1001, '2022-02-05', 3, 1111),
+('0555004388', 1003, '2021-06-28', 2, 3333),
+('0555004388', 1002, '2021-06-27', 2, 2222),
+('2902984555', 1001, '2022-01-29', 3, 2222);
+
+SELECT * FROM ispit;
 ```
 
 ### Zašto je to korisno?

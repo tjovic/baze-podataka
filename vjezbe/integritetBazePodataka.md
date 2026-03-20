@@ -115,15 +115,19 @@ Drugim riječima, `NOT NULL` osigurava samo da vrijednost postoji, ali **ne sprj
 ### Brisanje podataka i tablice
 
 ```sql
-TRUNCATE TABLE nastavnik;
 DELETE FROM nastavnik;
+```
+```sql
+TRUNCATE TABLE nastavnik;
+```
+```sql
 DROP TABLE nastavnik;
 ```
 
 ### Objašnjenje
 
-- `TRUNCATE` će isprazniti tablicu, odnosno obrisati sve retke
 - `DELETE` bez `WHERE` uvjeta također briše sve retke iz tablice
+- `TRUNCATE` će isprazniti tablicu, odnosno obrisati sve retke
 - `DROP` briše cijelu tablicu, odnosno i strukturu i podatke
 
 Važna razlika između `DELETE` i `TRUNCATE`:
@@ -482,6 +486,19 @@ INSERT INTO ispit VALUES
 SELECT * FROM ispit;
 ```
 
+### Pokušajmo unijeti vrijednost ključa koji postoji:
+
+```sql
+INSERT INTO ispit VALUES ('0555004388', 1001, '2022-01-29', 1, 1111);
+```
+
+### Što očekivati?
+
+SQL Server vraća grešku: 
+*Violation of **PRIMARY KEY** constraint 'PK_ispit'. Cannot insert duplicate key in object 'dbo.ispit'. The duplicate key value is (0555004388, 1001, 2022-01-29).*
+
+---
+
 ### Surogatni ključ + zaštita alternativnog ključa
 
 Kada imamo složeni ključ, često uvodimo **surogatni ključ**, a prirodni ključ štitimo pomoću `UNIQUE`.
@@ -510,18 +527,6 @@ INSERT INTO ispit VALUES
 
 SELECT * FROM ispit;
 ```
-
-### Pokušajmo unijeti vrijednost ključa koji postoji:
-
-```sql
-INSERT INTO ispit VALUES ('0555004388', 1001, '2022-01-29', 1, 1111);
-```
-
-### Što očekivati?
-
-SQL Server vraća grešku: 
-*Violation of **PRIMARY KEY** constraint 'UQ_ispit'. Cannot insert duplicate key in object 'dbo.ispit'. The duplicate key value is (0555004388, 1001, 2022-01-29).*
-
 ### Zašto je to korisno?
 
 - `sifIspit` je jednostavan za referenciranje
@@ -581,7 +586,7 @@ Ovdje se osigurava da je ocjena uvijek između 1 i 5.
 ```sql
 INSERT INTO ispit VALUES
 ('0555004388', 1001, '2022-01-29', 1, 1111),
-('2902984555', 1001, '2022-01-29', 6, 2222);
+('2902984555', 1001, '2022-01-29', 6, 2222); --primijetite da je se unosi ocjena 6
 
 SELECT * FROM ispit;
 ```
@@ -598,7 +603,6 @@ Ako u jednoj `INSERT` naredbi pokušamo ubaciti više redaka, a jedan od njih kr
 
 1. Zašto `CHECK` spada u domenski integritet?
 2. Koje bi još poslovno pravilo moglo biti zapisano pomoću `CHECK`?
-3. Bi li `ocj = 0` prošla u ovom primjeru?
 
 ---
 
@@ -631,6 +635,8 @@ SELECT * FROM nastavnik;
 ```sql
 ALTER TABLE nastavnik
 ADD imeNast NVARCHAR(20);
+
+select * from nastavnik;
 ```
 
 ### Brisanje stupca
@@ -638,6 +644,8 @@ ADD imeNast NVARCHAR(20);
 ```sql
 ALTER TABLE nastavnik
 DROP COLUMN imeNast;
+
+select * from nastavnik;
 ```
 
 ### Promjena tipa stupca
@@ -687,7 +695,9 @@ CREATE TABLE nastavnik (
 );
 
 INSERT INTO nastavnik VALUES (1000, '06382780091', N'Newton');
-INSERT INTO nastavnik VALUES (1000, '91643023865', N'Maxwell');
+INSERT INTO nastavnik VALUES (1000, '91643023865', N'Maxwell'); --unosimo dva puta istu vrijednost za sifNast
+
+select * from nastavnik;
 ```
 
 ### Dodavanje `UNIQUE` ograničenja
@@ -732,9 +742,13 @@ ALTER COLUMN sifNast INT NOT NULL;
 Zatim uklanjamo duplikat:
 
 ```sql
+--nastavniku s OIB-om 91643023865 mijenjamo šifru iz 1000 u 1001
 UPDATE nastavnik
 SET sifNast = 1001
 WHERE oibNast = '91643023865';
+
+--sada više nema duplih vrijednosti
+select * from nastavnik;
 ```
 
 Sada možemo ponovno pokušati:
@@ -791,6 +805,8 @@ CREATE TABLE predmet(
 ### Kreiranje tablice `ispit`
 
 ```sql
+DROP TABLE ispit;
+
 CREATE TABLE ispit
 (
     sifIspit INT IDENTITY(1000,1) PRIMARY KEY,
@@ -835,7 +851,14 @@ INSERT INTO ispit VALUES
 ### ❌ Pokušaj brisanja roditeljskog zapisa
 
 ```sql
-DELETE FROM student;
+--Provjera trenutnog stanja u tablicama student i ispit
+SELECT * FROM student;
+SELECT * FROM ispit;
+```
+
+```sql
+--Pokušaj brisanja studenta s OIB-om 0555004388
+DELETE FROM student WHERE oib = '0555004388';
 ```
 
 **Očekivanje:** SQL Server odbija brisanje uz poruku tipa  
@@ -901,6 +924,14 @@ CREATE TABLE ispit
     CONSTRAINT FK_ispit_predmet FOREIGN KEY (sifPred) REFERENCES predmet(sifPred), 
     CONSTRAINT FK_ispit_nastavnik FOREIGN KEY (sifNast) REFERENCES nastavnik(sifNast)
 );
+
+--testni podaci
+INSERT INTO ispit VALUES
+('0555004388', 1001, '2022-01-29', 1, 1111),
+('0555004388', 1001, '2022-02-05', 3, 1111),
+('0555004388', 1003, '2021-06-28', 2, 3333),
+('0555004388', 1002, '2021-06-27', 2, 2222),
+('2902984555', 1001, '2022-01-29', 3, 2222);
 
 SELECT * FROM ispit;
 ```

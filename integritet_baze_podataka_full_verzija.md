@@ -254,14 +254,13 @@ Dakle:
 
 ### Važna napomena o `UNIQUE` i `NULL`
 
-```sql
-/* UNIQUE ograničenje u SQL Serveru ne dozvoljava pojavu više NULL vrijednosti.
-   To se razlikuje od nekih drugih sustava, npr. Oraclea ili PostgreSQL-a. */
-```
+UNIQUE ograničenje u SQL Serveru ne dozvoljava pojavu više NULL vrijednosti.
+To se razlikuje od nekih drugih sustava, npr. Oraclea ili PostgreSQL-a.
+
 
 ```sql
-INSERT INTO nastavnik VALUES (1006, NULL, N'Moore');
-INSERT INTO nastavnik VALUES (1007, NULL, N'Kepler');
+INSERT INTO nastavnik VALUES (1006, NULL, N'Moore'); 
+INSERT INTO nastavnik VALUES (1007, NULL, N'Kepler'); --ne prolazi jer SQL server ne dozvoljava pojavu više NULL vrijednosti
 ```
 
 **Očekivanje:** SQL Server vraća poruku tipa *Violation of UNIQUE KEY constraint...*

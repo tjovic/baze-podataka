@@ -25,7 +25,7 @@ Nakon ove lekcije student treba moći:
 
 - objasniti pojam integriteta baze podataka
 - razlikovati vrste integriteta
-- koristiti `NOT NULL`, `PRIMARY KEY`, `UNIQUE`, `CHECK` i `FOREIGN KEY`
+- koristiti `NOT NULL`, `DEFAULT`, `PRIMARY KEY`, `UNIQUE`, `CHECK` i `FOREIGN KEY`
 - razumjeti razliku između `DELETE`, `TRUNCATE` i `DROP`
 - definirati jednostavne i složene ključeve
 - naknadno mijenjati definiciju tablice naredbom `ALTER TABLE`
@@ -157,8 +157,6 @@ Važna razlika između `DELETE` i `TRUNCATE`:
 ## Primjer
 
 ```sql
-DROP TABLE nastavnik;
-
 CREATE TABLE nastavnik (
     sifNast INT PRIMARY KEY,
     oibNast CHAR(11) NOT NULL,
@@ -199,6 +197,8 @@ VALUES (1002, '91643023865', N'Maxwell', 0);
 ### Primjer definicije
 
 ```sql
+DROP TABLE nastavnik;
+
 CREATE TABLE nastavnik (
     sifNast INT PRIMARY KEY,
     oibNast CHAR(11) NOT NULL,
@@ -911,47 +911,11 @@ Nakon brisanja studenta s `jmbag = '0555004388'`, automatski se brišu i svi nje
 U ovoj lekciji naučili smo:
 
 - `NOT NULL` sprječava nepoznate vrijednosti u obaveznim stupcima
+- `DEFAULT`  baza automatski dodjeljuje vrijednost ako nije unesena
 - `PRIMARY KEY` osigurava jedinstvenu identifikaciju redaka
 - `UNIQUE` štiti alternativne ključeve
 - `CHECK` ograničava dopuštene vrijednosti u stupcu
 - `FOREIGN KEY` osigurava referencijski integritet između tablica
 - `ALTER TABLE` omogućuje naknadne promjene strukture i ograničenja
 
----
 
-## Pitanja za ponavljanje
-
-1. Koja je razlika između `NOT NULL`, `UNIQUE` i `PRIMARY KEY`?
-2. Zašto `CHECK` spada u domenski integritet?
-3. Kada `ALTER TABLE ... ADD CONSTRAINT` neće proći?
-4. Koja je razlika između `DELETE`, `TRUNCATE` i `DROP`?
-5. Zašto `FOREIGN KEY` ne dopušta upis povezanog zapisa ako roditeljski zapis ne postoji?
-6. Što radi `ON DELETE CASCADE`?
-7. Kada je korisno koristiti surogatni ključ?
-
----
-
-## Mini-zadaci za samostalan rad
-
-### Zadatak 1
-Napravi tablicu `student` sa sljedećim pravilima:
-
-- `jmbag` je primarni ključ
-- `prezime` je obavezno
-- `ime` je obavezno
-
-### Zadatak 2
-Dodaj u tablicu `student` atribut `email` koji mora biti jedinstven.
-
-### Zadatak 3
-Napravi tablicu `upis` u kojoj je broj ECTS bodova ograničen na raspon od 1 do 30.
-
-### Zadatak 4
-Poveži tablice `student` i `upis` tako da zapis u tablici `upis` ne može postojati bez postojećeg studenta.
-
-### Zadatak 5
-Objasni vlastitim riječima razliku između:
-
-- prirodnog ključa
-- surogatnog ključa
-- alternativnog ključa

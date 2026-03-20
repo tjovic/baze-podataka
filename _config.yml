@@ -1,9 +1,55 @@
 title: Baze podataka
 description: Primjeri modela baza podataka
+
 remote_theme: just-the-docs/just-the-docs
 
 plugins:
   - jekyll-remote-theme
 
+# 🔍 Search
 search_enabled: true
+search:
+  heading_level: 2
+  previews: 3
+  preview_words_before: 5
+  preview_words_after: 10
+
+# 📋 Copy button za code
 enable_copy_code_button: true
+
+# 🧭 Navigacija
+nav_sort: case_insensitive
+nav_external_links_new_tab: true
+
+# 📌 Breadcrumbs
+show_breadcrumbs: true
+
+# 📑 Table of contents (desni sidebar)
+toc:
+  enabled: true
+  h_min: 2
+  h_max: 3
+
+# 📐 Širina sadržaja (bolje za SQL)
+max_width: 1200px
+
+# 🎨 Tema (možeš promijeniti u "light" ako želiš)
+color_scheme: light
+
+# 🔗 Link gore desno
+aux_links:
+  GitHub repo: https://github.com/tjovic/baze-podataka
+
+# 📂 Footer
+footer_content: "Materijali za kolegij baze podataka"
+
+# 🧠 Heading anchori (linkovi na naslove)
+heading_anchors: true
+
+# 📄 Default layout
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"

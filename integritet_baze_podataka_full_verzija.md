@@ -145,6 +145,48 @@ Važna razlika između `DELETE` i `TRUNCATE`:
 
 ---
 
+## 🔹 `NOT NULL` i `DEFAULT`
+
+### Ideja
+
+- `NOT NULL` → atribut mora imati vrijednost  
+- `DEFAULT` → baza automatski dodjeljuje vrijednost ako nije unesena  
+
+---
+
+## Primjer
+
+```sql
+DROP TABLE nastavnik;
+
+CREATE TABLE nastavnik (
+    sifNast INT PRIMARY KEY,
+    oibNast CHAR(11) NOT NULL,
+    prezNast NVARCHAR(40) NOT NULL,
+    aktivan BIT NOT NULL DEFAULT 1
+);
+```
+
+### Unos bez navođenja stupca `aktivan`
+
+```sql
+INSERT INTO nastavnik (sifNast, oibNast, prezNast)
+VALUES (1001, '06382780091', N'Newton');
+
+SELECT * FROM nastavnik;
+```
+rezultat:
+`aktivan = 1` (postavljeno pomoću DEFAULT)
+
+### Unos s eksplicitnom vrijednošću
+```sql
+INSERT INTO nastavnik (sifNast, oibNast, prezNast, aktivan)
+VALUES (1002, '91643023865', N'Maxwell', 0);
+```
+
+> DEFAULT se koristi samo ako stupac nije naveden u INSERT naredbi
+---
+
 ## 3. Primarni ključ (`PRIMARY KEY`)
 
 ### Teorija
@@ -727,14 +769,6 @@ CREATE TABLE ispit
 );
 ```
 
-### Tekstualni prikaz odnosa
-
-```text
-student (1) ----< ispit >---- (1) predmet
-                     |
-                     v
-                 nastavnik
-```
 
 ### Ubacivanje testnih podataka
 

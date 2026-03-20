@@ -857,7 +857,7 @@ SELECT * FROM ispit;
 ```
 
 ```sql
---Pokušaj brisanja studenta s OIB-om 0555004388
+--Pokušaj brisanja studenta s JMBAG-om 0555004388
 DELETE FROM student WHERE oib = '0555004388';
 ```
 
@@ -942,6 +942,7 @@ SELECT * FROM ispit;
 -- provjera prije brisanja
 SELECT * FROM ispit;
 
+--Pokušaj brisanja studenta s JMBAG-om 0555004388
 DELETE
 FROM student
 WHERE jmbag = '0555004388';

@@ -1,5 +1,7 @@
 # baze-podataka
-Vježbe
+
+## Vježbe
+ - [Integritet baze podataka](vjezbe/integritetBazePodataka.md)
 
 ## Modeli
 

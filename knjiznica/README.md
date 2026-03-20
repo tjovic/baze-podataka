@@ -6,4 +6,5 @@
 
 ## DDL
 
-Nalazi se u `ddl/knjiznica.sql`
+Kompletan DDL:
+[ddl/knjiznica.sql](ddl/knjiznica.sql)

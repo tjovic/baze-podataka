@@ -98,21 +98,21 @@ VALUES
 
 INSERT INTO autor (ime, prezime)
 VALUES
-('Ivo', 'Andriæ'),
+('Ivo', 'AndriÄ‡'),
 ('George', 'Orwell'),
-('Ivana', 'Brliæ-Mauraniæ');
+('Ivana', 'BrliÄ‡-MaÅ¾uraniÄ‡');
 
 INSERT INTO clan (oib, ime, prezime, email, status)
 VALUES
-('12345678901', 'Marko', 'Markoviæ', 'marko@email.com', 'aktivan'),
-('23456789012', 'Ana', 'Aniæ', 'ana@email.com', 'aktivan'),
-('34567890123', 'Ivan', 'Iviæ', 'ivan@email.com', 'blokiran');
+('12345678901', 'Marko', 'MarkoviÄ‡', 'marko@email.com', 'aktivan'),
+('23456789012', 'Ana', 'AniÄ‡', 'ana@email.com', 'aktivan'),
+('34567890123', 'Ivan', 'IviÄ‡', 'ivan@email.com', 'blokiran');
 
 INSERT INTO knjiga (isbn, naslov, idKat, idIzdavac)
 VALUES
-('9789530000001', 'Na Drini æuprija', 1, 1),
+('9789530000001', 'Na Drini Ä‡uprija', 1, 1),
 ('9789530000002', '1984', 2, 2),
-('9789530000003', 'Prièe iz davnine', 1, 3);
+('9789530000003', 'PriÄe iz davnine', 1, 3);
 
 INSERT INTO primjerak (invBr, izdanje, godIzd, status, idKnjiga)
 VALUES

@@ -390,10 +390,6 @@ INSERT INTO nastavnik (oibNast, prezNast) VALUES ('91643023865', N'Maxwell');
 SELECT * FROM nastavnik;
 ```
 
-### Važna napomena
-
-`IDENTITY` služi za automatsko generiranje vrijednosti, ali ne garantira da će numeracija uvijek biti bez “rupa”.
-
 ### Razlika između `DELETE` i `TRUNCATE`
 
 DELETE briše redove iz tablice, ali ne resetira IDENTITY vrijednost.
@@ -519,6 +515,17 @@ SELECT * FROM ispit;
 
 - `sifIspit` je jednostavan za referenciranje
 - prirodna kombinacija (`jmbag`, `sifPred`, `datIspit`) i dalje ostaje zaštićena od duplikata
+
+### Pokušajmo unijeti vrijednost ključa koji postoji:
+
+```sql
+INSERT INTO ispit VALUES ('0555004388', 1001, '2022-01-29', 1, 1111);
+```
+
+### Što očekivati?
+
+SQL Server vraća grešku: 
+*Violation of UNIQUE KEY constraint 'UQ_ispit'. Cannot insert duplicate key in object 'dbo.ispit'. The duplicate key value is (0555004388, 1001, 2022-01-29).*
 
 ### Pitanje za razmišljanje
 

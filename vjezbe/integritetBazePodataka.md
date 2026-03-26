@@ -149,7 +149,7 @@ Važna razlika između `DELETE` i `TRUNCATE`:
 
 ---
 
-## 🔹 `NOT NULL` i `DEFAULT`
+## `NOT NULL` i `DEFAULT`
 
 ### Ideja
 
@@ -162,7 +162,7 @@ Važna razlika između `DELETE` i `TRUNCATE`:
 
 ```sql
 CREATE TABLE nastavnik (
-    sifNast INT PRIMARY KEY,
+    sifNast INT NOT NULL,
     oibNast CHAR(11) NOT NULL,
     prezNast NVARCHAR(40) NOT NULL,
     aktivan BIT NOT NULL DEFAULT 1
@@ -188,7 +188,17 @@ VALUES (1002, '91643023865', N'Maxwell', 0);
 SELECT * FROM nastavnik;
 ```
 
-> DEFAULT se koristi samo ako stupac nije naveden u INSERT naredbi
+### Napomena:
+`DEFAULT` definira početnu vrijednost pri unosu, ali tek uz `NOT NULL` postižemo potpuni integritet podataka jer onemogućujemo eksplicitni unos nevažećih NULL vrijednosti.
+
+Npr. Ako definiramo stupac samo kao aktivan `BIT DEFAULT 1`, gubimo potpunu kontrolu nad integritetom. 
+Iako `DEFAULT` sugerira da će nastavnik biti aktivan, baza će dopustiti sljedeće:
+
+```sql
+INSERT INTO nastavnik (sifNast, oibNast, prezNast, aktivan) 
+VALUES (1001, '06382780091', N'Newton', NULL);
+```
+
 ---
 
 ## 3. Primarni ključ (`PRIMARY KEY`)

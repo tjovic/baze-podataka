@@ -93,10 +93,20 @@ CREATE TABLE nastavnik (
 INSERT INTO nastavnik VALUES 
 (1111, '06382780091', N'Pascal'),
 (3333, '91643023865', N'Newton'),
-(2222, '51843144239', N'Cantor');
+(2222, '51843144239', NULL);
 
 SELECT * FROM nastavnik;
 ```
+
+Definicija tablice dozvoljava u stupcu prezNast unos NULL 'vrijednosti'.
+
+### Unos `NULL` vrijednosti u stupcu gdje je definirano `NOT NULL` ograničenje
+
+```sql
+INSERT INTO nastavnik VALUES (4444, NULL, N'Gauss');
+```
+
+**Očekivanje:** SQL Server vraća poruku tipa *Cannot insert the value NULL into column 'oibNast'...*
 
 ### Pokušaj ponovnog unosa istog zapisa
 

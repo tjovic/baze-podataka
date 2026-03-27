@@ -654,7 +654,7 @@ DROP TABLE nastavnik;
 
 CREATE TABLE nastavnik (
     sifNast INT IDENTITY(5001, 1) PRIMARY KEY,
-    oibNast CHAR(10) NOT NULL UNIQUE,
+    oibNast CHAR(11) NOT NULL UNIQUE,
     prezNast NVARCHAR(10)
 );
 

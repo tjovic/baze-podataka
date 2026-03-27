@@ -780,6 +780,8 @@ ALTER TABLE nastavnik
 ADD CONSTRAINT PK_nastavnik PRIMARY KEY (sifNast);
 ```
 
+SQL Server vraća grešku: *Cannot define PRIMARY KEY constraint on **nullable column** in table 'nastavnik'.*
+
 ### Što se događa?
 
 Ovdje dobivamo problem jer:
@@ -798,7 +800,17 @@ ALTER TABLE nastavnik
 ALTER COLUMN sifNast INT NOT NULL;
 ```
 
-Zatim uklanjamo duplikat:
+Novi pokušaj dodavanja primarnog ključa:
+
+```sql
+ALTER TABLE nastavnik
+ADD CONSTRAINT PK_nastavnik PRIMARY KEY (sifNast);
+```
+
+Sada SQL Server vraća grešku:
+*The CREATE UNIQUE INDEX statement terminated because a **duplicate key** was found for the object name 'dbo.nastavnik' and the index name 'PK_nastavnik'. The duplicate key value is (1000).*
+
+Uklonimo duplikat:
 
 ```sql
 --nastavniku s OIB-om 91643023865 mijenjamo šifru iz 1000 u 1001

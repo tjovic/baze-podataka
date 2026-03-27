@@ -159,7 +159,7 @@ Važna razlika između `DELETE` i `TRUNCATE`:
 
 ---
 
-## `NOT NULL` i `DEFAULT`
+## `DEFAULT`
 
 ### Ideja
 
@@ -175,7 +175,7 @@ CREATE TABLE nastavnik (
     sifNast INT NOT NULL,
     oibNast CHAR(11) NOT NULL,
     prezNast NVARCHAR(40) NOT NULL,
-    aktivan BIT NOT NULL DEFAULT 1
+    aktivan BIT DEFAULT 1
 );
 ```
 
@@ -201,13 +201,17 @@ SELECT * FROM nastavnik;
 ### Napomena:
 `DEFAULT` definira početnu vrijednost pri unosu, ali tek uz `NOT NULL` postižemo potpuni integritet podataka jer onemogućujemo eksplicitni unos nevažećih NULL vrijednosti.
 
-Npr. Ako definiramo stupac samo kao aktivan `BIT DEFAULT 1`, gubimo potpunu kontrolu nad integritetom. 
+Npr. Ako definiramo stupac samo kao **aktivan** `BIT DEFAULT 1`, gubimo potpunu kontrolu nad integritetom. 
 Iako `DEFAULT` sugerira da će nastavnik biti aktivan, baza će dopustiti sljedeće:
 
 ```sql
 INSERT INTO nastavnik (sifNast, oibNast, prezNast, aktivan) 
 VALUES (1001, '06382780091', N'Newton', NULL);
+
+SELECT * FROM nastavnik;
 ```
+
+Dakle, potrebno je stupac **aktivan** definirati kao `BIT NOT NULL DEFAULT 1`
 
 ---
 
@@ -304,8 +308,8 @@ CREATE TABLE nastavnik (
 
 ```sql
 INSERT INTO nastavnik VALUES (1000, '06382780091', N'Newton');
-INSERT INTO nastavnik VALUES (1000, '06382780091', N'Newton'); -- ne prolazi zbog PRIMARY KEY
-INSERT INTO nastavnik VALUES (1001, '06382780091', N'Newton'); -- ne prolazi zbog UNIQUE
+INSERT INTO nastavnik VALUES (1000, '63743552278', N'Leibniz'); -- ne prolazi zbog PRIMARY KEY
+INSERT INTO nastavnik VALUES (1001, '06382780091', N'Codd'); -- ne prolazi zbog UNIQUE
 SELECT * FROM nastavnik;
 ```
 
@@ -328,7 +332,12 @@ To se razlikuje od nekih drugih sustava, npr. Oraclea ili PostgreSQL-a.
 
 ```sql
 INSERT INTO nastavnik VALUES (1006, NULL, N'Moore'); 
+SELECT * FROM nastavnik;
+```
+
+```sql
 INSERT INTO nastavnik VALUES (1007, NULL, N'Kepler'); --ne prolazi jer SQL server ne dozvoljava pojavu više NULL vrijednosti
+SELECT * FROM nastavnik;
 ```
 
 **Očekivanje:** SQL Server vraća poruku tipa *Violation of UNIQUE KEY constraint...*
@@ -364,6 +373,8 @@ CREATE TABLE nastavnik (
 );
 
 INSERT INTO nastavnik VALUES (1001, '06382780091', N'Newton');
+SELECT * FROM nastavnik;
+
 INSERT INTO nastavnik VALUES (1005, NULL, N'Gauss');
 ```
 
@@ -407,9 +418,12 @@ Primjeri:
 
 ### Unos podataka
 
+>Kod unosa podataka ne navodimo **sifNast** jer se on generira automatski
+
 ```sql
-INSERT INTO nastavnik VALUES ('06382780091', N'Newton'); -- sada ne navodimo sifNast jer se on generira automatski
-INSERT INTO nastavnik (oibNast, prezNast) VALUES ('91643023865', N'Maxwell');
+INSERT INTO nastavnik VALUES 
+('06382780091', N'Newton'),
+('91643023865', N'Maxwell');
 
 SELECT * FROM nastavnik;
 ```
@@ -640,23 +654,63 @@ DROP TABLE nastavnik;
 
 CREATE TABLE nastavnik (
     sifNast INT IDENTITY(5001, 1) PRIMARY KEY,
-    oibNast CHAR(11) NOT NULL UNIQUE,
-    prezNast NVARCHAR(40)
+    oibNast CHAR(10) NOT NULL UNIQUE,
+    prezNast NVARCHAR(10)
 );
 
-INSERT INTO nastavnik VALUES ('06382780091', N'Newton');
-INSERT INTO nastavnik VALUES ('91643023865', N'Maxwell');
+INSERT INTO nastavnik VALUES 
+('06382780091', N'Newton'),
+('91643023865', N'Maxwell');
 
 SELECT * FROM nastavnik;
 ```
+
+### Promjena tipa stupca
+
+Hoće li proći sljedeći unos?
+```sql
+INSERT INTO nastavnik VALUES ('75114131579', N'Mohorovičić');
+```
+
+```sql
+ALTER TABLE nastavnik
+ALTER COLUMN prezNast NVARCHAR(20);
+```
+
+Novi pokušaj:
+```sql
+INSERT INTO nastavnik VALUES ('75114131579', N'Mohorovičić');
+
+SELECT * FROM nastavnik;
+```
+
+### Dodavanje `NOT NULL` ograničenja
+
+```sql
+ALTER TABLE nastavnik
+ALTER COLUMN prezNast NVARCHAR(20) NOT NULL;
+```
+
+### Važna napomena
+
+Prije postavljanja `NOT NULL`, svi postojeći retci moraju imati vrijednost u tom stupcu.
+
+> Pravilo: novo ograničenje može se dodati ili pooštriti samo ako ga svi postojeći podaci već zadovoljavaju.
 
 ### Dodavanje stupca
 
 ```sql
 ALTER TABLE nastavnik
-ADD imeNast NVARCHAR(20);
+ADD imeNast NVARCHAR(10);
 
 select * from nastavnik;
+```
+
+### Unos podataka
+```sql
+INSERT INTO nastavnik VALUES ('60440865410', N'Einstein', 'Albert'); 
+
+SELECT * FROM nastavnik;
 ```
 
 ### Brisanje stupca
@@ -667,26 +721,6 @@ DROP COLUMN imeNast;
 
 select * from nastavnik;
 ```
-
-### Promjena tipa stupca
-
-```sql
-ALTER TABLE nastavnik
-ALTER COLUMN prezNast NVARCHAR(50);
-```
-
-### Dodavanje `NOT NULL` ograničenja
-
-```sql
-ALTER TABLE nastavnik
-ALTER COLUMN prezNast NVARCHAR(50) NOT NULL;
-```
-
-### Važna napomena
-
-Prije postavljanja `NOT NULL`, svi postojeći retci moraju imati vrijednost u tom stupcu.
-
-> Pravilo: novo ograničenje može se dodati ili pooštriti samo ako ga svi postojeći podaci već zadovoljavaju.
 
 ### Pitanja za provjeru razumijevanja
 

@@ -929,7 +929,7 @@ SELECT * FROM ispit;
 
 ```sql
 --Pokušaj brisanja studenta s JMBAG-om 0555004388
-DELETE FROM student WHERE oib = '0555004388';
+DELETE FROM student WHERE jmbag = '0555004388';
 ```
 
 **Očekivanje:** SQL Server odbija brisanje uz poruku tipa  
@@ -1003,22 +1003,22 @@ INSERT INTO ispit VALUES
 ('0555004388', 1003, '2021-06-28', 2, 3333),
 ('0555004388', 1002, '2021-06-27', 2, 2222),
 ('2902984555', 1001, '2022-01-29', 3, 2222);
-
-SELECT * FROM ispit;
 ```
 
 ### Provjera ponašanja
 
 ```sql
 -- provjera prije brisanja
+SELECT * FROM student;
 SELECT * FROM ispit;
 
---Pokušaj brisanja studenta s JMBAG-om 0555004388
+--Pokušaj (ovaj put uspješan!) brisanja studenta s JMBAG-om 0555004388
 DELETE
 FROM student
 WHERE jmbag = '0555004388';
 
 -- provjera nakon brisanja
+SELECT * FROM student;
 SELECT * FROM ispit;
 ```
 

@@ -672,6 +672,11 @@ Hoće li proći sljedeći unos?
 INSERT INTO nastavnik VALUES ('75114131579', N'Mohorovičić');
 ```
 
+SQL Server vraća grešku tipa: *String or binary data would be truncated in table 'dbo.nastavnik', column 'prezNast'. Truncated value: 'Mohoroviči'.*
+Dakle, pokušavamo upisati 11 znakova u vrijednost atributa **prezNast** koji je definiran kao `NVARCHAR(10)`
+
+Kako promijeniti definiciju?
+
 ```sql
 ALTER TABLE nastavnik
 ALTER COLUMN prezNast NVARCHAR(20);
